@@ -1,0 +1,123 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Fart.js Demo</title>
+		<script src="../js/fart.js"></script>
+		<script src="../js/jquery.js"></script>
+		<!--[if lt IE 9]>
+		<script src="../js/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+			$(document).ready(function() {
+				var fart = new Fart();
+				var loop = new Fart({
+					loop : true
+				});
+				$('.click').click(function() {
+					var fart_noise = $(this).data('fart');
+					fart.play(fart_noise);
+				});
+
+				$('#scroller').scroll(function(e) {
+					fart.random();
+				});
+
+				$('#start').click(function() {
+					loop.play();
+				});
+
+				$('#stop').click(function() {
+					loop.stop();
+				});
+
+				$('.volume').click(function() {
+					var level = $(this).data('level');
+					var f = new Fart({
+						volume : level
+					});
+					f.play('toot', function() {
+						f.remove();
+					});
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<div>
+			<h1>Fart Sounds</h1>
+			<div id="farts"></div>
+			<script>
+				for (f in farts) {
+					$('#farts').append('<button class="click" data-fart="' + f + '"><b>' + f + '</b></button>');
+				}
+			</script>
+		</div>
+		<div>
+			<h1>Controls</h1>
+
+			<button id="start">
+				<b>Start [looped]</b>
+			</button>
+			<button id="stop">
+				<b>Stop</b>
+			</button>
+		</div>
+		<div>
+			<h1>Volume</h1>
+			<button class="volume" data-level="20">
+				<b>Vol 20</b>
+			</button>
+			<button class="volume" data-level="50">
+				<b>Vol 50</b>
+			</button>
+			<button class="volume" data-level="100">
+				<b>Vol 100</b>
+			</button>
+		</div>
+		<div>
+			<h1>Attach to events</h1>
+			<div style="height: 200px;overflow: scroll; border: 1px solid #333; width: 200px;" id="scroller">
+				<div style="height: 500px; ">
+					Scroll Me
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					mmmmmm
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					aahhhhh
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
