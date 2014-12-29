@@ -9,7 +9,9 @@
  * @web 	http://jsfart.com/
  * @github 	https://github.com/74656c/fart.js/
  * 
- * version 1.0.2
+ * version 2.0.0
+ * 
+ * Remove need for jQuery for actual plugin
  * 
  * 
  */
@@ -32,11 +34,13 @@ var farts = {
 	trumpet : 'fart9',
 	fizzler : 'fart10',
 	windy : 'fart11',
-	eine : 'fart12'
+	eine : 'fart12',
+	fartception: 'fart13',
+	fartpoint1: 'fart14'
 };
 
 /**
-* This is the description for my class.
+* This is the Fart constructor.
 *
 * @class Fart
 * @constructor
@@ -47,13 +51,29 @@ function Fart(options) {
 	this.sound = this.default_sound;
 	this.fart_player = null;
 	this.old_player = false;
-	this.options = $.extend({
+	this.options = this.fartxtend({
 		default_sound : farts.raspberry,
 		loop : false,
 		volume : 50	// 0 - 100
 	}, options);
 	this.init();
 }
+Fart.preloaded = false;
+
+/**
+ * 
+ * Mimic jQuery Extend. 			✓ 
+ * Change name for Fart-based LOL. 	✓   
+ * 
+ */
+Fart.prototype.fartxtend = function(options, defaults) {
+    for(var key in defaults){
+        if(defaults.hasOwnProperty(key)){
+        	options[key] = defaults[key];
+        }    	
+    }   
+    return options;
+};
 
 /**
 * Init the player. Figure out if the old player should be loaded by checking if the audio element has the canPlayType() method 
@@ -74,7 +94,7 @@ Fart.prototype.init = function() {
 * @method load_old_player
 */
 Fart.prototype.load_old_player = function() {
-	$('body').append('<div style="display:none;"><object id="contentPlayer" classid="CLSID:6BF52A52-394A-11d3-B153-00C04F79FAA6" width="100" height="100"><param name="volume" value="100%" /><param name="windowlessVideo" value="true"><param name="AnimationatStart" value="0" /><param name="autostart" value="1" /></object></div>');
+	document.body.innerHTML += '<div style="display:none;"><object id="contentPlayer" classid="CLSID:6BF52A52-394A-11d3-B153-00C04F79FAA6" width="100" height="100"><param name="volume" value="100%" /><param name="windowlessVideo" value="true"><param name="AnimationatStart" value="0" /><param name="autostart" value="1" /></object></div>';
 	this.fart_player = document.getElementById('contentPlayer');
 	this.fart_old_player = true;
 };
@@ -143,10 +163,12 @@ Fart.prototype.random = function() {
 */
 Fart.prototype.preload = function() {
 	var fart_player = this.fart_player;
-	if (!this.fart_old_player) {
-		$.each(farts, function(index, fart) {
+	if (!this.fart_old_player && !Fart.preloaded) {
+		for(f in farts){
 			var ext = (fart_player.canPlayType('audio/mp3')) ? '.mp3' : '.wav';
-			fart_player.setAttribute('src', "/farts/" + fart + ext);
-		});
+			fart_player.setAttribute('src', "/farts/" + farts[f] + ext);
+			console.log('preload:',farts[f]);
+		}
+		Fart.preloaded = true;
 	}
 };

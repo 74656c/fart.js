@@ -6,14 +6,12 @@
 		<title>Fart.js Demo</title>
 		<script src="../js/fart.js"></script>
 		<script src="../js/jquery.js"></script>
-		<!--[if lt IE 9]>
-		<script src="../js/html5shiv.js"></script>
-		<![endif]-->
 		<script>
 			$(document).ready(function() {
 				var fart = new Fart();
 				var loop = new Fart({
-					loop : true
+					loop : true,
+					volume : 100
 				});
 				$('.click').click(function() {
 					var fart_noise = $(this).data('fart');
@@ -25,7 +23,7 @@
 				});
 
 				$('#start').click(function() {
-					loop.play();
+					loop.play('fartception');
 				});
 
 				$('#stop').click(function() {
