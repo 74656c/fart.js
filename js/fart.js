@@ -116,11 +116,11 @@ Fart.prototype.play = function(sound, callback) {
 		this.fart_player.loop = this.options.loop;
 		this.fart_player.volume = (this.options.volume / 100);
 		this.fart_player.play();
-		$(this.fart_player).on("ended", function() {
+		(this.fart_player).addEventListener("ended", function() {
 			if (callback) {
 				callback();
-				$(this.fart_player).off("ended");
-			}
+				(this.fart_player).removeEventListener("ended");
+		}
 		});
 	} else {
 		this.fart_player.URL = "/farts/" + fart + '.mp3';
